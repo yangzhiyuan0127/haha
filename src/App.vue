@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    我是美团
+    <router-view></router-view>
   </div>
 </template>
 
