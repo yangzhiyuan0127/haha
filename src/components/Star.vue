@@ -1,11 +1,15 @@
 <template>
-    <div>
+    <div  class="star-container">
         <ul>
-           <li v-for="i in 5" :key="i" :class="{
-               'active':i<num,
-           
-               'unactive':i>num,
-           }" ></li>
+           <li
+        v-for="i in 5"   
+        :key="i"
+        :class="{
+          'active':i<=num,
+          'half-active': ((i-num)>0)&&((i-num)<1),  
+          'unactive':i> Math.ceil(num)
+      }"
+      ></li>
         </ul>
     </div>
 </template>
@@ -14,7 +18,7 @@
     export default {
         props:{
           num:{
-            type:Number,
+         //   type:Number,
             default:5
         }
     }
@@ -22,6 +26,9 @@
 </script>
 
 <style lang="scss" scoped>
+
+.star-container{
+    display: inline-block;
 ul{
     display:flex;
     li{
@@ -39,5 +46,6 @@ ul{
     .unactive{
         background-image:url(./images/star.png) ;
     }
+}
 }
 </style>

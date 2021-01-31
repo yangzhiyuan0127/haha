@@ -1,7 +1,8 @@
 <template>
     <div>
 <ul class="store-list-box">
-    <li class="store-list" v-for="obj in list" :key="obj.id">
+    <li class="store-list" v-for="obj in list" :key="obj.id"
+      @click="$router.push({path:'/detail',query:{id:obj.id}})">
         <img class="store-img" :src="obj.img" alt="">
          <div class="store-info">
              <h2>{{obj.name}}</h2>
@@ -11,7 +12,8 @@
              <div>配送时间：{{obj.minute}}</div>
          </div>
     </li>
-</ul>
+</ul> 
+<img class="loading" v-show="isShow" src="@/assets/images/loading.gif" alt="">
     </div>
 </template>
 <script>
@@ -21,7 +23,9 @@ import Star from '@/components/Star'
         data(){
             return{
                 list:[],
-                Num:0
+                Num:0,
+                isShow:true,
+                isFinished:false
             }
         },
         components:{
@@ -34,6 +38,10 @@ import Star from '@/components/Star'
        // console.log(res.data.data.list);
         this.list= [...this.list,...res.data.data.list]
         this.Num++;
+        this.isShow=false;
+        if(res.list.length=res.data.data.tolal){
+         this.isFinished=true
+        }
     }).catch((err)=>{
         console.log(err); 
             })  
@@ -48,8 +56,11 @@ import Star from '@/components/Star'
             let scrollTtop=document.documentElement.scrollTop;
             let clientHeight=document.documentElement.clientHeight;
             let scrollHeight=document.documentElement.scrollHeight;
-        if(scrollTtop+clientHeight==scrollHeight){
-        this.getData();
+        if(scrollTtop+clientHeight==scrollHeight ){
+      
+      this.isShow=true;
+      
+      this.getData();
                 }
             }
         }
@@ -70,5 +81,12 @@ import Star from '@/components/Star'
     }
    }
 }
-
+.loading{
+    position: fixed;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    width:1.2rem;
+    height:1.2rem;
+}
 </style>
